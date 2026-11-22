@@ -54,7 +54,7 @@ jobs:
       - run: pip install -e .
       - name: Run lab (groups A, B, C) and record CLI transcripts
         run: sudo -E env "PATH=$PATH" python lab/run_lab.py --out lab-results --transcripts
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: lab-results-openvpn2
@@ -94,7 +94,7 @@ jobs:
         run: |
           sudo -E env "PATH=$PATH" python lab/run_lab.py --out lab-results --groups C \
             --openvpn3-client "$HOME/ovpncli/ovpncli"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: lab-results-openvpn3
