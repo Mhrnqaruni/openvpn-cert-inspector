@@ -13,8 +13,8 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - run: pip install ruff
@@ -30,8 +30,8 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
         python: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python }}
           allow-prereleases: true
@@ -42,8 +42,8 @@ jobs:
     name: lab (real OpenVPN 2.6 servers and clients)
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - name: Install OpenVPN
@@ -54,7 +54,7 @@ jobs:
       - run: pip install -e .
       - name: Run lab (groups A, B, C) and record CLI transcripts
         run: sudo -E env "PATH=$PATH" python lab/run_lab.py --out lab-results --transcripts
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: lab-results-openvpn2
@@ -66,8 +66,8 @@ jobs:
     env:
       OPENVPN3_REF: release/3.11.3
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - name: Install OpenVPN and build dependencies
@@ -77,7 +77,7 @@ jobs:
             libasio-dev libcap-dev liblz4-dev libjsoncpp-dev libssl-dev libxxhash-dev
       - name: Cache the OpenVPN 3 test client
         id: cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/ovpncli
           key: ovpncli-${{ env.OPENVPN3_REF }}-ubuntu-24.04
@@ -94,7 +94,7 @@ jobs:
         run: |
           sudo -E env "PATH=$PATH" python lab/run_lab.py --out lab-results --groups C \
             --openvpn3-client "$HOME/ovpncli/ovpncli"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: lab-results-openvpn3
