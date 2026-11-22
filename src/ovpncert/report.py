@@ -128,6 +128,8 @@ def _report_lines(report: RemoteReport, now: datetime, style: Style) -> list[str
         verdict = style.green("PASS") + "  trusted and within its validity period"
     else:
         verdict = style.red("FAIL") + "  " + "; ".join(p.message for p in evaluation.problems)
+    if evaluation.pin_match:
+        verdict += "; pinned certificate matches peer-fingerprint"
     lines.append(f"  {style.dim('result'.ljust(12))}{verdict}")
     clients = []
     for key, prediction in evaluation.predictions.items():

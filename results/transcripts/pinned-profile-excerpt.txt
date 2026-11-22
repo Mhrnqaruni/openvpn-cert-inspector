@@ -1,0 +1,21 @@
+client
+dev null
+proto udp4
+remote localhost 21023
+nobind
+remote-cert-tls server
+auth SHA256
+data-ciphers AES-256-GCM:AES-128-GCM:CHACHA20-POLY1305
+ifconfig-noexec
+route-noexec
+verb 3
+# --- Temporary certificate pin written by ovpncert 1.0.0 on 2026-11-22 07:18 UTC ---
+# The certificate(s) below were verified to be signed by the CA of the original
+# profile; the pin only overlooks their validity period.
+# Target client: OpenVPN 3 (OpenVPN Connect, openvpn3-linux): CA kept, pin added.
+# When the operator renews the certificate this profile stops working
+# ("bad peer-fingerprint"); switch back to the original profile then.
+#   localhost:21023/udp  O=Lab, CN=vpn.lab.test  (notAfter 2026-11-22 04:18:01 UTC)
+<peer-fingerprint>
+AD:FF:CB:18:B1:9E:65:88:99:2A:F6:DD:3F:27:4F:77:AC:55:EF:E1:03:5C:36:C5:6C:DF:47:C3:D6:17:80:91
+</peer-fingerprint>

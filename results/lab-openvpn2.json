@@ -5,7 +5,7 @@
     "openvpn": "OpenVPN 2.6.19 x86_64-pc-linux-gnu [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] [DCO]",
     "python": "3.12.16",
     "openssl": "OpenSSL 3.0.13 30 Jan 2024",
-    "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39"
+    "platform": "Linux-7.0.0-1014-aws-x86_64-with-glibc2.39"
   },
   "passed": 29,
   "total": 29,
@@ -17,7 +17,7 @@
       "observed": "certificate",
       "predicted": null,
       "ok": true,
-      "detail": "TLSv1.3 TLS_AES_256_GCM_SHA384 4 ms",
+      "detail": "TLSv1.3 TLS_AES_256_GCM_SHA384 3 ms",
       "seconds": 0.22
     },
     {
@@ -27,7 +27,7 @@
       "observed": "certificate",
       "predicted": null,
       "ok": true,
-      "detail": "TLSv1.3 TLS_AES_256_GCM_SHA384 3 ms",
+      "detail": "TLSv1.3 TLS_AES_256_GCM_SHA384 2 ms",
       "seconds": 0.22
     },
     {
@@ -38,7 +38,7 @@
       "predicted": null,
       "ok": true,
       "detail": "TLSv1.3 TLS_AES_256_GCM_SHA384 2 ms",
-      "seconds": 0.21
+      "seconds": 0.22
     },
     {
       "group": "A",
@@ -48,7 +48,7 @@
       "predicted": null,
       "ok": true,
       "detail": "TLSv1.3 TLS_AES_256_GCM_SHA384 2 ms",
-      "seconds": 0.22
+      "seconds": 0.21
     },
     {
       "group": "A",
@@ -57,7 +57,7 @@
       "observed": "certificate",
       "predicted": null,
       "ok": true,
-      "detail": "TLSv1.3 TLS_AES_256_GCM_SHA384 3 ms",
+      "detail": "TLSv1.3 TLS_AES_256_GCM_SHA384 2 ms",
       "seconds": 0.21
     },
     {
@@ -98,7 +98,7 @@
       "predicted": null,
       "ok": true,
       "detail": "no-reply: no reply to the hard reset (the server silently drops packets that fail tls-auth/tls-crypt, so a wrong key, key-direction or --auth digest looks the same as a filtered port)",
-      "seconds": 3.22
+      "seconds": 3.21
     },
     {
       "group": "A",
@@ -108,7 +108,7 @@
       "predicted": null,
       "ok": true,
       "detail": "no-reply: no reply to the hard reset (the server silently drops packets that fail tls-auth/tls-crypt, so a wrong key, key-direction or --auth digest looks the same as a filtered port)",
-      "seconds": 3.21
+      "seconds": 3.22
     },
     {
       "group": "B",
@@ -118,7 +118,7 @@
       "predicted": null,
       "ok": true,
       "detail": "The server certificate is valid",
-      "seconds": 0.22
+      "seconds": 0.21
     },
     {
       "group": "B",
@@ -128,7 +128,7 @@
       "predicted": null,
       "ok": true,
       "detail": "The server certificate has expired",
-      "seconds": 0.21
+      "seconds": 0.22
     },
     {
       "group": "B",
@@ -138,7 +138,7 @@
       "predicted": null,
       "ok": true,
       "detail": "The server certificate is not valid yet",
-      "seconds": 0.21
+      "seconds": 0.22
     },
     {
       "group": "B",
@@ -158,7 +158,7 @@
       "predicted": null,
       "ok": true,
       "detail": "The server certificate is not signed by the CA in the profile",
-      "seconds": 0.22
+      "seconds": 0.21
     },
     {
       "group": "B",
@@ -178,7 +178,7 @@
       "predicted": null,
       "ok": true,
       "detail": "The server certificate is valid",
-      "seconds": 0.21
+      "seconds": 0.22
     },
     {
       "group": "B",
@@ -197,7 +197,7 @@
       "observed": "accepted",
       "predicted": "accepted",
       "ok": true,
-      "detail": "2026-11-22 07:13:52 Initialization Sequence Completed",
+      "detail": "2026-11-22 07:18:11 Initialization Sequence Completed",
       "seconds": 0.01
     },
     {
@@ -207,7 +207,7 @@
       "observed": "rejected",
       "predicted": "rejected",
       "ok": true,
-      "detail": "2026-11-22 07:13:52 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=314274185183898621248204265544344549394685027840",
+      "detail": "2026-11-22 07:18:11 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=345163768647740733151466097808283394039983755677",
       "seconds": 0.01
     },
     {
@@ -217,7 +217,7 @@
       "observed": "rejected",
       "predicted": "rejected",
       "ok": true,
-      "detail": "2026-11-22 07:13:52 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=314274185183898621248204265544344549394685027840",
+      "detail": "2026-11-22 07:18:11 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=345163768647740733151466097808283394039983755677",
       "seconds": 0.01
     },
     {
@@ -227,7 +227,7 @@
       "observed": "accepted",
       "predicted": "accepted",
       "ok": true,
-      "detail": "2026-11-22 07:13:52 Initialization Sequence Completed",
+      "detail": "2026-11-22 07:18:11 Initialization Sequence Completed",
       "seconds": 0.01
     },
     {
@@ -237,7 +237,7 @@
       "observed": "rejected",
       "predicted": "rejected",
       "ok": true,
-      "detail": "2026-11-22 07:13:52 TLS Error: --tls-verify/--peer-fingerprint certificate hash verification failed. (got certificate fingerprint: 58:0e:42:2b:5c:88:15:3a:71:20:dc:c3:11:cc:d7:9f:d2:b5:32:d8:a2:4e:86:35:da:1a:b2:9b:9a:f1:47:33)",
+      "detail": "2026-11-22 07:18:11 TLS Error: --tls-verify/--peer-fingerprint certificate hash verification failed. (got certificate fingerprint: ad:ff:cb:18:b1:9e:65:88:99:2a:f6:dd:3f:27:4f:77:ac:55:ef:e1:03:5c:36:c5:6c:df:47:c3:d6:17:80:91)",
       "seconds": 0.01
     },
     {
@@ -247,7 +247,7 @@
       "observed": "accepted",
       "predicted": "accepted",
       "ok": true,
-      "detail": "2026-11-22 07:13:52 Initialization Sequence Completed",
+      "detail": "2026-11-22 07:18:11 Initialization Sequence Completed",
       "seconds": 0.01
     },
     {
@@ -257,7 +257,7 @@
       "observed": "rejected",
       "predicted": "rejected",
       "ok": true,
-      "detail": "2026-11-22 07:13:52 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=314274185183898621248204265544344549394685027840",
+      "detail": "2026-11-22 07:18:11 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=345163768647740733151466097808283394039983755677",
       "seconds": 0.01
     },
     {
@@ -267,7 +267,7 @@
       "observed": "rejected",
       "predicted": "rejected",
       "ok": true,
-      "detail": "2026-11-22 07:13:52 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=314274185183898621248204265544344549394685027840",
+      "detail": "2026-11-22 07:18:11 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=345163768647740733151466097808283394039983755677",
       "seconds": 0.01
     },
     {
@@ -277,7 +277,7 @@
       "observed": "accepted",
       "predicted": "accepted",
       "ok": true,
-      "detail": "2026-11-22 07:13:52 Initialization Sequence Completed",
+      "detail": "2026-11-22 07:18:11 Initialization Sequence Completed",
       "seconds": 0.01
     },
     {
@@ -287,7 +287,7 @@
       "observed": "rejected",
       "predicted": "rejected",
       "ok": true,
-      "detail": "2026-11-22 07:13:53 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=181368895702899740540531166125094683317933317116",
+      "detail": "2026-11-22 07:18:12 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=94761040309880322735923861277945629582946370270",
       "seconds": 0.01
     },
     {
@@ -297,7 +297,7 @@
       "observed": "accepted",
       "predicted": "accepted",
       "ok": true,
-      "detail": "2026-11-22 07:13:53 Initialization Sequence Completed",
+      "detail": "2026-11-22 07:18:12 Initialization Sequence Completed",
       "seconds": 0.01
     }
   ]

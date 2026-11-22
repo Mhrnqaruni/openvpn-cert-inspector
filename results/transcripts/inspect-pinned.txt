@@ -1,0 +1,16 @@
+$ ovpncert inspect client.pinned-openvpn3.ovpn
+ovpncert 1.0.0 | client.pinned-openvpn3.ovpn | tls-auth (HMAC-SHA256, key-direction 1) | 1 remote | 2026-11-22 07:18:12 UTC
+
+* localhost:21023/udp -> 127.0.0.1   TLSv1.3 TLS_AES_256_GCM_SHA384   0.00 s
+  Server certificate
+    subject   O=Lab, CN=vpn.lab.test
+    issuer    O=Lab, CN=Lab Root CA
+    validity  2024-11-21 07:18:01 -> 2026-11-22 04:18:01 UTC  EXPIRED 3 hours ago
+    sha256    AD:FF:CB:18:B1:9E:65:88:99:2A:F6:DD:3F:27:4F:77:AC:55:EF:E1:03:5C:36:C5:6C:DF:47:C3:D6:17:80:91
+    serial    3C75ADBE6287348A17AF4E828A47AAEF94F1D19D
+    key       RSA 2048, sha256WithRSAEncryption
+    usage     digital_signature, key_encipherment | TLS Web Server Authentication
+  chain       server -> 'O=Lab, CN=Lab Root CA' [profile CA, valid until 2036-11-19]
+  result      FAIL  server certificate expired on 2026-11-22 04:18:01 UTC
+  clients     OpenVPN 3 (Connect): accepts | OpenVPN 2.x: rejects
+[exit status 1]

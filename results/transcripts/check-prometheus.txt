@@ -1,0 +1,14 @@
+$ ovpncert check client.ovpn --format prometheus
+# HELP ovpncert_probe_success Whether the handshake-only probe retrieved a certificate.
+# TYPE ovpncert_probe_success gauge
+ovpncert_probe_success{remote="localhost:21023/udp"} 1
+# HELP ovpncert_certificate_expiry_timestamp_seconds Earliest notAfter in the verified chain.
+# TYPE ovpncert_certificate_expiry_timestamp_seconds gauge
+ovpncert_certificate_expiry_timestamp_seconds{remote="localhost:21023/udp"} 1795321081
+# HELP ovpncert_certificate_trusted Whether the chain verifies against the profile CA (time ignored).
+# TYPE ovpncert_certificate_trusted gauge
+ovpncert_certificate_trusted{remote="localhost:21023/udp"} 1
+# HELP ovpncert_check_state Check state (0 OK, 1 WARNING, 2 CRITICAL, 3 UNKNOWN).
+# TYPE ovpncert_check_state gauge
+ovpncert_check_state{remote="localhost:21023/udp"} 2
+[exit status 2]

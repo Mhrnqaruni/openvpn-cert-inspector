@@ -11,3 +11,4 @@ coverage.xml
 htmlcov/
 /lab-results/
 *.pinned-*.ovpn
+docs/figures/*.png

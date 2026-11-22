@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "OpenVPN Certificate Inspector (ovpncert)"
+abstract: >-
+  A handshake-only OpenVPN control-channel client that retrieves and verifies the X.509 certificate
+  of an OpenVPN server without credentials (UDP/TCP, tls-auth, tls-crypt), diagnoses certificate
+  verification failures, writes client-specific temporary peer-fingerprint profiles, and provides
+  expiry monitoring, validated against real OpenVPN 2.6 and OpenVPN 3 clients.
+type: software
+authors:
+  - family-names: Gharooni
+    given-names: Mehran
+repository-code: "https://github.com/Mhrnqaruni/openvpn-cert-inspector"
+license: MIT
+version: 1.0.0
+date-released: 2026-11-22
+keywords:
+  - OpenVPN
+  - TLS
+  - X.509
+  - certificate monitoring
+  - certificate pinning
+  - network security

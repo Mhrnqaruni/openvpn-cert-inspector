@@ -1,0 +1,21 @@
+$ ovpncert diagnose client.ovpn --no-clock-check
+DIAGNOSIS  The server certificate has expired
+           severity: critical | who can fix it: server operator
+
+  affects: localhost:21023/udp
+  The server presents 'O=Lab, CN=vpn.lab.test', which expired 3 hours ago (2026-11-22
+  04:18:01 UTC). It is still correctly signed by the CA in the profile ('O=Lab, CN=Lab
+  Root CA', valid until 2036-11-19), so the profile itself is fine. Clients reject it
+  during the TLS handshake (OpenVPN Connect: "Peer certificate verification failure").
+
+  What to do
+    1. The VPN operator must renew the server certificate. Reissuing it from the same CA
+       restores access for every existing client profile without redistributing profiles.
+    2. Temporary workaround: `ovpncert pin client.ovpn` writes a profile that pins this
+       exact certificate after verifying it against the profile's CA.
+
+  Evidence
+    clock         not checked
+    profile CA    O=Lab, CN=Lab Root CA, valid until 2036-11-19
+    localhost:21023/udp: EXPIRED; notAfter 2026-11-22 04:18:01 UTC
+[exit status 1]
