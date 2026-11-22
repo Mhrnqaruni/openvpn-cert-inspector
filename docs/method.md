@@ -45,10 +45,11 @@ sequenceDiagram
   de-duplicated, and reassembled in message-id order before the payload is
   fed to TLS.
 * **Three-way start.** The server's reset is acknowledged with a standalone
-  `P_ACK_V1` before the first TLS record. OpenVPN 2.6 servers answer the
-  initial reset statelessly with an HMAC-derived session id and only create
-  state once that acknowledgement returns. Sending it first is accepted by
-  older and newer servers alike.
+  `P_ACK_V1` before the first TLS record. Recent OpenVPN 2.x servers can
+  answer the initial reset statelessly, using an HMAC-derived session id as a
+  cookie, and create per-client state only when that acknowledgement returns.
+  Sending it first works with older and newer servers alike. It was verified
+  against OpenVPN 2.6.19 in the lab and against a production deployment.
 * **TLS.** Python's `ssl` module runs the handshake over memory BIOs. Records
   are split into 1000-byte control payloads, below OpenVPN's default control
   packet size. Verification is disabled in the TLS layer because it is done

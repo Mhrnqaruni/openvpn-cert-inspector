@@ -8,8 +8,8 @@ Three kinds of evidence back the tool:
 
 ## 1. Unit tests
 
-80 tests run in CI on Linux, Windows and macOS with Python 3.10–3.14 (15
-jobs). An in-process control-channel server (`tests/fakeserver.py`) exercises
+90 tests run in CI on Linux, Windows and macOS with Python 3.10–3.14 (15
+jobs), with 89% line and branch coverage. An in-process control-channel server (`tests/fakeserver.py`) exercises
 the following:
 
 * the probe over UDP and TCP, with no protection, `tls-auth` and `tls-crypt`;
@@ -20,7 +20,8 @@ the following:
   closed ports;
 * chain evaluation for every certificate state;
 * pin generation and its safety gates, monitoring formats, log parsing, the
-  diagnosis decision table, and the CLI end to end.
+  clock check against local SNTP and HTTP servers, the diagnosis decision
+  table, and the CLI end to end.
 
 ## 2. Lab: real OpenVPN servers and clients
 
@@ -28,7 +29,7 @@ the following:
 servers (OpenSSL 3.0.13) and connects real clients: OpenVPN 2.6.19 and the
 OpenVPN 3 core 3.11.3 test client, which is the core inside OpenVPN Connect
 3.8. Every CI run repeats it. The latest results are committed in
-[`results/`](../results).
+[`results/`](../results/).
 
 | Group | What is tested | Result |
 |---|---|---|
@@ -53,7 +54,7 @@ docker run --rm --cap-add NET_ADMIN --device /dev/net/tun -v "$PWD:/src" \
     ovpncert-lab python3 /src/lab/run_lab.py --out /src/results --transcripts
 ```
 
-The transcripts in [`results/transcripts/`](../results/transcripts) are
+The transcripts in [`results/transcripts/`](../results/transcripts/) are
 unedited CLI output from that run against a real server whose certificate had
 expired.
 

@@ -1,0 +1,39 @@
+name: Bug report
+description: Something does not work as documented
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please remove host names, addresses, user names and keys you do not want to share.
+        Never paste a profile that contains `<key>`, `<tls-auth>`, `<tls-crypt>` or credentials.
+  - type: input
+    id: version
+    attributes:
+      label: ovpncert version
+      placeholder: output of `ovpncert --version`
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Operating system and Python version
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command and output
+      description: The command you ran and its output (`--json` output is most useful).
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+  - type: input
+    id: server
+    attributes:
+      label: Server side, if known
+      placeholder: e.g. OpenVPN 2.6.x, Access Server, protection mode (tls-auth / tls-crypt), UDP or TCP

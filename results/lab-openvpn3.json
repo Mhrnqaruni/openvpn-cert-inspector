@@ -5,7 +5,7 @@
     "openvpn": "OpenVPN 2.6.19 x86_64-pc-linux-gnu [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] [DCO]",
     "python": "3.12.16",
     "openssl": "OpenSSL 3.0.13 30 Jan 2024",
-    "platform": "Linux-7.0.0-1014-aws-x86_64-with-glibc2.39",
+    "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
     "openvpn3_client": "/home/runner/ovpncli/ovpncli"
   },
   "passed": 22,
@@ -18,8 +18,8 @@
       "observed": "accepted",
       "predicted": "accepted",
       "ok": true,
-      "detail": "2026-11-22 07:18:14 Initialization Sequence Completed",
-      "seconds": 0.01
+      "detail": "2026-11-22 07:27:14 Initialization Sequence Completed",
+      "seconds": 0.02
     },
     {
       "group": "C",
@@ -28,8 +28,8 @@
       "observed": "accepted",
       "predicted": "accepted",
       "ok": true,
-      "detail": "Sun Nov 22 07:18:14.269 2026 Connected via tun",
-      "seconds": 0.02
+      "detail": "Sun Nov 22 07:27:14.825 2026 Connected via tun",
+      "seconds": 0.03
     },
     {
       "group": "C",
@@ -38,7 +38,7 @@
       "observed": "rejected",
       "predicted": "rejected",
       "ok": true,
-      "detail": "2026-11-22 07:18:14 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=50698554678920926942751525771908027457384801212",
+      "detail": "2026-11-22 07:27:15 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=269572167414340976235971276655530326479751375115",
       "seconds": 0.01
     },
     {
@@ -48,7 +48,7 @@
       "observed": "rejected",
       "predicted": "rejected",
       "ok": true,
-      "detail": "2026-11-22 07:18:14 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=50698554678920926942751525771908027457384801212",
+      "detail": "2026-11-22 07:27:15 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=269572167414340976235971276655530326479751375115",
       "seconds": 0.01
     },
     {
@@ -58,7 +58,7 @@
       "observed": "accepted",
       "predicted": "accepted",
       "ok": true,
-      "detail": "2026-11-22 07:18:14 Initialization Sequence Completed",
+      "detail": "2026-11-22 07:27:15 Initialization Sequence Completed",
       "seconds": 0.01
     },
     {
@@ -68,7 +68,7 @@
       "observed": "rejected",
       "predicted": "rejected",
       "ok": true,
-      "detail": "2026-11-22 07:18:14 TLS Error: --tls-verify/--peer-fingerprint certificate hash verification failed. (got certificate fingerprint: c4:29:7a:d2:ed:54:5a:42:07:51:b3:d3:df:b3:79:24:39:cc:9f:c4:3c:43:55:3d:d8:79:15:a0:23:61:19:24)",
+      "detail": "2026-11-22 07:27:15 TLS Error: --tls-verify/--peer-fingerprint certificate hash verification failed. (got certificate fingerprint: f2:f2:33:18:84:41:fd:39:b7:de:16:6a:0f:6b:9d:57:c0:ce:d6:d2:9c:73:9d:98:36:ef:85:ed:f6:6c:88:e7)",
       "seconds": 0.01
     },
     {
@@ -78,7 +78,7 @@
       "observed": "accepted",
       "predicted": "accepted",
       "ok": true,
-      "detail": "2026-11-22 07:18:14 Initialization Sequence Completed",
+      "detail": "2026-11-22 07:27:15 Initialization Sequence Completed",
       "seconds": 0.01
     },
     {
@@ -88,7 +88,7 @@
       "observed": "rejected",
       "predicted": "rejected",
       "ok": true,
-      "detail": "2026-11-22 07:18:14 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=50698554678920926942751525771908027457384801212",
+      "detail": "2026-11-22 07:27:15 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=269572167414340976235971276655530326479751375115",
       "seconds": 0.01
     },
     {
@@ -98,7 +98,7 @@
       "observed": "rejected",
       "predicted": "rejected",
       "ok": true,
-      "detail": "Sun Nov 22 07:18:14.560 2026 EVENT: CERT_VERIFY_FAIL OpenSSLContext::SSL::read_cleartext: BIO_read failed, cap=2640 status=-1: error:0A000086:SSL routines::certificate verify failed [FATAL-ERR]",
+      "detail": "Sun Nov 22 07:27:15.141 2026 EVENT: CERT_VERIFY_FAIL OpenSSLContext::SSL::read_cleartext: BIO_read failed, cap=2640 status=-1: error:0A000086:SSL routines::certificate verify failed [FATAL-ERR]",
       "seconds": 0.01
     },
     {
@@ -108,8 +108,8 @@
       "observed": "accepted",
       "predicted": "accepted",
       "ok": true,
-      "detail": "Sun Nov 22 07:18:14.574 2026 Connected via tun",
-      "seconds": 0.02
+      "detail": "Sun Nov 22 07:27:15.158 2026 Connected via tun",
+      "seconds": 0.03
     },
     {
       "group": "C",
@@ -118,8 +118,8 @@
       "observed": "accepted",
       "predicted": "accepted",
       "ok": true,
-      "detail": "Sun Nov 22 07:18:14.606 2026 Connected via tun",
-      "seconds": 0.03
+      "detail": "Sun Nov 22 07:27:15.221 2026 Connected via tun",
+      "seconds": 0.06
     },
     {
       "group": "C",
@@ -128,8 +128,8 @@
       "observed": "rejected",
       "predicted": "rejected",
       "ok": true,
-      "detail": "Sun Nov 22 07:18:14.639 2026 EVENT: CERT_VERIFY_FAIL OpenSSLContext::SSL::read_cleartext: BIO_read failed, cap=2640 status=-1: error:0A000086:SSL routines::certificate verify failed [FATAL-ERR]",
-      "seconds": 0.02
+      "detail": "Sun Nov 22 07:27:15.259 2026 EVENT: CERT_VERIFY_FAIL OpenSSLContext::SSL::read_cleartext: BIO_read failed, cap=2640 status=-1: error:0A000086:SSL routines::certificate verify failed [FATAL-ERR]",
+      "seconds": 0.03
     },
     {
       "group": "C",
@@ -138,8 +138,8 @@
       "observed": "accepted",
       "predicted": "accepted",
       "ok": true,
-      "detail": "Sun Nov 22 07:18:14.662 2026 Connected via tun",
-      "seconds": 0.03
+      "detail": "Sun Nov 22 07:27:15.277 2026 Connected via tun",
+      "seconds": 0.02
     },
     {
       "group": "C",
@@ -148,8 +148,8 @@
       "observed": "accepted",
       "predicted": "accepted",
       "ok": true,
-      "detail": "Sun Nov 22 07:18:14.696 2026 Connected via tun",
-      "seconds": 0.03
+      "detail": "Sun Nov 22 07:27:15.319 2026 Connected via tun",
+      "seconds": 0.04
     },
     {
       "group": "C",
@@ -158,7 +158,7 @@
       "observed": "rejected",
       "predicted": "rejected",
       "ok": true,
-      "detail": "2026-11-22 07:18:14 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=50698554678920926942751525771908027457384801212",
+      "detail": "2026-11-22 07:27:15 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=269572167414340976235971276655530326479751375115",
       "seconds": 0.01
     },
     {
@@ -168,7 +168,7 @@
       "observed": "accepted",
       "predicted": "accepted",
       "ok": true,
-      "detail": "2026-11-22 07:18:14 Initialization Sequence Completed",
+      "detail": "2026-11-22 07:27:15 Initialization Sequence Completed",
       "seconds": 0.01
     },
     {
@@ -178,8 +178,8 @@
       "observed": "accepted",
       "predicted": "accepted",
       "ok": true,
-      "detail": "Sun Nov 22 07:18:14.958 2026 Connected via tun",
-      "seconds": 0.02
+      "detail": "Sun Nov 22 07:27:15.589 2026 Connected via tun",
+      "seconds": 0.03
     },
     {
       "group": "C",
@@ -188,8 +188,8 @@
       "observed": "rejected",
       "predicted": "rejected",
       "ok": true,
-      "detail": "Sun Nov 22 07:18:14.986 2026 EVENT: CERT_VERIFY_FAIL OpenSSLContext::SSL::read_cleartext: BIO_read failed, cap=2640 status=-1: error:0A000086:SSL routines::certificate verify failed [FATAL-ERR]",
-      "seconds": 0.02
+      "detail": "Sun Nov 22 07:27:15.627 2026 EVENT: CERT_VERIFY_FAIL OpenSSLContext::SSL::read_cleartext: BIO_read failed, cap=2640 status=-1: error:0A000086:SSL routines::certificate verify failed [FATAL-ERR]",
+      "seconds": 0.03
     },
     {
       "group": "C",
@@ -198,7 +198,7 @@
       "observed": "rejected",
       "predicted": "rejected",
       "ok": true,
-      "detail": "2026-11-22 07:18:15 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=538978045892673555041109683951726099903173076953",
+      "detail": "2026-11-22 07:27:15 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=558377685251129203715787045461571531571123617676",
       "seconds": 0.01
     },
     {
@@ -208,7 +208,7 @@
       "observed": "accepted",
       "predicted": "accepted",
       "ok": true,
-      "detail": "2026-11-22 07:18:15 Initialization Sequence Completed",
+      "detail": "2026-11-22 07:27:15 Initialization Sequence Completed",
       "seconds": 0.01
     },
     {
@@ -218,8 +218,8 @@
       "observed": "accepted",
       "predicted": "accepted",
       "ok": true,
-      "detail": "Sun Nov 22 07:18:15.235 2026 Connected via tun",
-      "seconds": 0.02
+      "detail": "Sun Nov 22 07:27:15.889 2026 Connected via tun",
+      "seconds": 0.03
     },
     {
       "group": "C",
@@ -228,7 +228,7 @@
       "observed": "rejected",
       "predicted": "rejected",
       "ok": true,
-      "detail": "Sun Nov 22 07:18:15.266 2026 EVENT: CERT_VERIFY_FAIL OpenSSLContext::SSL::read_cleartext: BIO_read failed, cap=2640 status=-1: error:0A000086:SSL routines::certificate verify failed [FATAL-ERR]",
+      "detail": "Sun Nov 22 07:27:15.920 2026 EVENT: CERT_VERIFY_FAIL OpenSSLContext::SSL::read_cleartext: BIO_read failed, cap=2640 status=-1: error:0A000086:SSL routines::certificate verify failed [FATAL-ERR]",
       "seconds": 0.02
     }
   ]

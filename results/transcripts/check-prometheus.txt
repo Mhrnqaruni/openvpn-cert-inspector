@@ -4,7 +4,7 @@ $ ovpncert check client.ovpn --format prometheus
 ovpncert_probe_success{remote="localhost:21023/udp"} 1
 # HELP ovpncert_certificate_expiry_timestamp_seconds Earliest notAfter in the verified chain.
 # TYPE ovpncert_certificate_expiry_timestamp_seconds gauge
-ovpncert_certificate_expiry_timestamp_seconds{remote="localhost:21023/udp"} 1795321081
+ovpncert_certificate_expiry_timestamp_seconds{remote="localhost:21023/udp"} 1795321629
 # HELP ovpncert_certificate_trusted Whether the chain verifies against the profile CA (time ignored).
 # TYPE ovpncert_certificate_trusted gauge
 ovpncert_certificate_trusted{remote="localhost:21023/udp"} 1

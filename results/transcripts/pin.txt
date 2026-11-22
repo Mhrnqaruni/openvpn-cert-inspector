@@ -1,5 +1,5 @@
 $ ovpncert pin client.ovpn
-  pin  localhost:21023/udp  AD:FF:CB:18:B1:9E:65:88:99:2A:F6:DD:3F:27:4F:77:AC:55:EF:E1:03:5C:36:C5:6C:DF:47:C3:D6:17:80:91
+  pin  localhost:21023/udp  3C:AE:75:95:E8:4F:25:9D:51:01:28:69:1D:63:5C:1C:10:2B:D0:F8:88:4A:02:82:F5:1A:52:B7:04:83:59:F9
 
   Wrote client.pinned-openvpn3.ovpn for OpenVPN 3 (Connect).
   Import it as a separate profile; keep the original for when the certificate is renewed.

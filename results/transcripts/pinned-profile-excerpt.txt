@@ -9,13 +9,13 @@ data-ciphers AES-256-GCM:AES-128-GCM:CHACHA20-POLY1305
 ifconfig-noexec
 route-noexec
 verb 3
-# --- Temporary certificate pin written by ovpncert 1.0.0 on 2026-11-22 07:18 UTC ---
+# --- Temporary certificate pin written by ovpncert 1.0.0 on 2026-11-22 07:27 UTC ---
 # The certificate(s) below were verified to be signed by the CA of the original
 # profile; the pin only overlooks their validity period.
 # Target client: OpenVPN 3 (OpenVPN Connect, openvpn3-linux): CA kept, pin added.
 # When the operator renews the certificate this profile stops working
 # ("bad peer-fingerprint"); switch back to the original profile then.
-#   localhost:21023/udp  O=Lab, CN=vpn.lab.test  (notAfter 2026-11-22 04:18:01 UTC)
+#   localhost:21023/udp  O=Lab, CN=vpn.lab.test  (notAfter 2026-11-22 04:27:09 UTC)
 <peer-fingerprint>
-AD:FF:CB:18:B1:9E:65:88:99:2A:F6:DD:3F:27:4F:77:AC:55:EF:E1:03:5C:36:C5:6C:DF:47:C3:D6:17:80:91
+3C:AE:75:95:E8:4F:25:9D:51:01:28:69:1D:63:5C:1C:10:2B:D0:F8:88:4A:02:82:F5:1A:52:B7:04:83:59:F9
 </peer-fingerprint>

@@ -9,7 +9,7 @@
 | openvpn | OpenVPN 2.6.19 x86_64-pc-linux-gnu [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] [DCO] |
 | python | 3.12.16 |
 | openssl | OpenSSL 3.0.13 30 Jan 2024 |
-| platform | Linux-7.0.0-1014-aws-x86_64-with-glibc2.39 |
+| platform | Linux-7.0.0-1017-azure-x86_64-with-glibc2.39 |
 | openvpn3_client | /home/runner/ovpncli/ovpncli |
 
 | Group | Case | Expected | Observed | ovpncert model | Result |

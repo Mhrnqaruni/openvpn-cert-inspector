@@ -28,17 +28,17 @@ class ClockCheck:
         return self.offset_seconds is not None
 
 
-def sntp_offset(server: str, timeout: float = 3.0) -> float:
+def sntp_offset(server: str, timeout: float = 3.0, port: int = 123) -> float:
     """Return ``server_time - local_time`` in seconds using one SNTP (RFC 4330) exchange."""
     request = b"\x23" + 47 * b"\0"  # LI=0, VN=4, Mode=3 (client)
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
         sock.settimeout(timeout)
         t1 = time.time()
-        sock.sendto(request, (server, 123))
+        sock.sendto(request, (server, port))
         data, _ = sock.recvfrom(512)
         t4 = time.time()
-    if len(data) < 48:
-        raise OSError("short SNTP reply")
+    if len(data) < 48 or data[0] & 0x07 not in (4, 5):  # mode 4 = server, 5 = broadcast
+        raise OSError("invalid SNTP reply")
 
     def stamp(offset: int) -> float:
         seconds, fraction = struct.unpack("!II", data[offset : offset + 8])
@@ -60,16 +60,20 @@ def http_offset(url: str, timeout: float = 5.0) -> float:
     return parsedate_to_datetime(header).timestamp() - (t1 + t2) / 2
 
 
-def check_clock(ntp_servers=DEFAULT_NTP_SERVERS, http_urls=DEFAULT_HTTP_URLS) -> ClockCheck:
+def check_clock(
+    ntp_servers=DEFAULT_NTP_SERVERS, http_urls=DEFAULT_HTTP_URLS, timeout: float = 3.0
+) -> ClockCheck:
+    """Try each NTP server (``host`` or ``host:port``), then each HTTPS URL."""
     errors = []
     for server in ntp_servers:
+        host, _, port = server.partition(":")
         try:
-            return ClockCheck(sntp_offset(server), f"ntp://{server}")
-        except OSError as exc:
+            return ClockCheck(sntp_offset(host, timeout, int(port or 123)), f"ntp://{server}")
+        except (OSError, ValueError) as exc:
             errors.append(f"{server}: {exc}")
     for url in http_urls:
         try:
-            return ClockCheck(http_offset(url), url)
-        except OSError as exc:
+            return ClockCheck(http_offset(url, timeout), url)
+        except (OSError, ValueError) as exc:
             errors.append(f"{url}: {exc}")
     return ClockCheck(None, "", "; ".join(errors) or "no time source configured")

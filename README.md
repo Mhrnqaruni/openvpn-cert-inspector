@@ -68,7 +68,7 @@ it:
   chain to your CA, writes the profile variant each client family accepts,
   and fails closed when the operator renews the certificate.
 - **Validated three ways.**
-  - 80 unit tests on Linux, Windows and macOS with Python 3.10–3.14.
+  - 90 unit tests (89% line and branch coverage) on Linux, Windows and macOS with Python 3.10–3.14.
   - A CI lab with real OpenVPN 2.6 servers and clients plus the OpenVPN 3
     client: 29/29 and 22/22 cases.
   - A field validation during a production outage.
@@ -147,8 +147,8 @@ has a `--client` option. Full tables:
 </picture>
 
 During an outage of a two-server production service (`tls-auth` with
-HMAC-SHA512, OpenVPN Connect clients), `ovpncert` produced the following
-(anonymised; [full account](docs/results.md#3-field-validation-anonymised)):
+HMAC-SHA512, OpenVPN Connect clients), the handshake probe established the
+following (anonymised; [full account](docs/results.md#3-field-validation-anonymised)):
 
 * It retrieved both certificates on the first attempt. Both had expired after
   731 days and still chained to the profile's CA, and the client clock was
@@ -226,7 +226,7 @@ src/ovpncert/
   inspector.py               concurrent probing of all remotes
   diagnose.py, clock.py, logs.py
   pin.py, monitor.py, report.py, cli.py
-tests/                       80 unit tests, in-process control-channel server
+tests/                       90 unit tests, in-process control-channel server
 lab/                         real-OpenVPN lab (run_lab.py, Dockerfile, throw-away PKI)
 results/                     lab results, CLI transcripts, anonymised field timeline
 docs/                        method, compatibility, results, related work, responsible use

@@ -1,0 +1,51 @@
+site_name: OpenVPN Certificate Inspector
+site_description: Handshake-only inspection, diagnosis and monitoring of OpenVPN server certificates.
+site_url: https://mhrnqaruni.github.io/openvpn-cert-inspector/
+repo_url: https://github.com/Mhrnqaruni/openvpn-cert-inspector
+repo_name: Mhrnqaruni/openvpn-cert-inspector
+edit_uri: ""
+copyright: Copyright &copy; 2026 Mehran Gharooni - MIT License
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - search.highlight
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue grey
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue grey
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+nav:
+  - Overview: index.md
+  - Method: method.md
+  - Client compatibility: compatibility.md
+  - Results: results.md
+  - Related work: related-work.md
+  - Responsible use: responsible-use.md
+
+markdown_extensions:
+  - tables
+  - admonition
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
