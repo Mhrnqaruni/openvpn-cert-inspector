@@ -1,0 +1,9 @@
+{
+  "server_a_certificate_expired": 0.0,
+  "server_b_certificate_expired": 4.78,
+  "first_client_failure": 8.53,
+  "last_successful_handshake_before_expiry": -6.07,
+  "pinned_profile_connected": 187.75,
+  "operator_renewed_server_a": 250.47,
+  "pinned_profile_failed_closed": 251.58
+}

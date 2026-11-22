@@ -1,0 +1,235 @@
+{
+  "environment": {
+    "date": "2026-11-22",
+    "ovpncert": "1.0.0",
+    "openvpn": "OpenVPN 2.6.19 x86_64-pc-linux-gnu [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] [DCO]",
+    "python": "3.12.16",
+    "openssl": "OpenSSL 3.0.13 30 Jan 2024",
+    "platform": "Linux-7.0.0-1014-aws-x86_64-with-glibc2.39",
+    "openvpn3_client": "/home/runner/ovpncli/ovpncli"
+  },
+  "passed": 22,
+  "total": 22,
+  "cases": [
+    {
+      "group": "C",
+      "name": "OpenVPN 2: valid certificate, CA only",
+      "expected": "accepted",
+      "observed": "accepted",
+      "predicted": "accepted",
+      "ok": true,
+      "detail": "2026-11-22 07:14:44 Initialization Sequence Completed",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 3: valid certificate, CA only",
+      "expected": "accepted",
+      "observed": "accepted",
+      "predicted": "accepted",
+      "ok": true,
+      "detail": "Sun Nov 22 07:14:44.724 2026 Connected via tun",
+      "seconds": 0.02
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf sent; CA only",
+      "expected": "rejected",
+      "observed": "rejected",
+      "predicted": "rejected",
+      "ok": true,
+      "detail": "2026-11-22 07:14:44 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=548647200463717429699955218971829359929728377665",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf sent; CA + pin",
+      "expected": "rejected",
+      "observed": "rejected",
+      "predicted": "rejected",
+      "ok": true,
+      "detail": "2026-11-22 07:14:44 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=548647200463717429699955218971829359929728377665",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf sent; pin only",
+      "expected": "accepted",
+      "observed": "accepted",
+      "predicted": "accepted",
+      "ok": true,
+      "detail": "2026-11-22 07:14:44 Initialization Sequence Completed",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf sent; pin only, wrong pin",
+      "expected": "rejected",
+      "observed": "rejected",
+      "predicted": "rejected",
+      "ok": true,
+      "detail": "2026-11-22 07:14:44 TLS Error: --tls-verify/--peer-fingerprint certificate hash verification failed. (got certificate fingerprint: 77:27:68:c9:91:dc:cf:59:b3:23:69:70:eb:3e:83:e6:3e:c1:15:3c:02:47:83:8c:ea:7c:21:44:b8:32:0f:8f)",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf sent; `ovpncert pin --client openvpn2`",
+      "expected": "accepted",
+      "observed": "accepted",
+      "predicted": "accepted",
+      "ok": true,
+      "detail": "2026-11-22 07:14:44 Initialization Sequence Completed",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf sent; `ovpncert pin --client openvpn3`",
+      "expected": "rejected",
+      "observed": "rejected",
+      "predicted": "rejected",
+      "ok": true,
+      "detail": "2026-11-22 07:14:44 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=548647200463717429699955218971829359929728377665",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 3: expired, leaf sent; CA only",
+      "expected": "rejected",
+      "observed": "rejected",
+      "predicted": "rejected",
+      "ok": true,
+      "detail": "Sun Nov 22 07:14:45.006 2026 EVENT: CERT_VERIFY_FAIL OpenSSLContext::SSL::read_cleartext: BIO_read failed, cap=2640 status=-1: error:0A000086:SSL routines::certificate verify failed [FATAL-ERR]",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 3: expired, leaf sent; CA + pin",
+      "expected": "accepted",
+      "observed": "accepted",
+      "predicted": "accepted",
+      "ok": true,
+      "detail": "Sun Nov 22 07:14:45.019 2026 Connected via tun",
+      "seconds": 0.02
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 3: expired, leaf sent; pin only",
+      "expected": "accepted",
+      "observed": "accepted",
+      "predicted": "accepted",
+      "ok": true,
+      "detail": "Sun Nov 22 07:14:45.045 2026 Connected via tun",
+      "seconds": 0.02
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 3: expired, leaf sent; CA + wrong pin",
+      "expected": "rejected",
+      "observed": "rejected",
+      "predicted": "rejected",
+      "ok": true,
+      "detail": "Sun Nov 22 07:14:45.071 2026 EVENT: CERT_VERIFY_FAIL OpenSSLContext::SSL::read_cleartext: BIO_read failed, cap=2640 status=-1: error:0A000086:SSL routines::certificate verify failed [FATAL-ERR]",
+      "seconds": 0.02
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 3: expired, leaf sent; `ovpncert pin --client openvpn3`",
+      "expected": "accepted",
+      "observed": "accepted",
+      "predicted": "accepted",
+      "ok": true,
+      "detail": "Sun Nov 22 07:14:45.090 2026 Connected via tun",
+      "seconds": 0.02
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 3: expired, leaf sent; `ovpncert pin --client openvpn2`",
+      "expected": "accepted",
+      "observed": "accepted",
+      "predicted": "accepted",
+      "ok": true,
+      "detail": "Sun Nov 22 07:14:45.118 2026 Connected via tun",
+      "seconds": 0.03
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf + root sent; CA + pin",
+      "expected": "rejected",
+      "observed": "rejected",
+      "predicted": "rejected",
+      "ok": true,
+      "detail": "2026-11-22 07:14:45 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=548647200463717429699955218971829359929728377665",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf + root sent; pin only",
+      "expected": "accepted",
+      "observed": "accepted",
+      "predicted": "accepted",
+      "ok": true,
+      "detail": "2026-11-22 07:14:45 Initialization Sequence Completed",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 3: expired, leaf + root sent; CA + pin",
+      "expected": "accepted",
+      "observed": "accepted",
+      "predicted": "accepted",
+      "ok": true,
+      "detail": "Sun Nov 22 07:14:45.367 2026 Connected via tun",
+      "seconds": 0.02
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 3: expired, leaf + root sent; pin only",
+      "expected": "rejected",
+      "observed": "rejected",
+      "predicted": "rejected",
+      "ok": true,
+      "detail": "Sun Nov 22 07:14:45.397 2026 EVENT: CERT_VERIFY_FAIL OpenSSLContext::SSL::read_cleartext: BIO_read failed, cap=2640 status=-1: error:0A000086:SSL routines::certificate verify failed [FATAL-ERR]",
+      "seconds": 0.02
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf + intermediate sent; CA + pin",
+      "expected": "rejected",
+      "observed": "rejected",
+      "predicted": "rejected",
+      "ok": true,
+      "detail": "2026-11-22 07:14:45 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=605449509911951375670263429020862308329472050229",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf + intermediate sent; pin only",
+      "expected": "accepted",
+      "observed": "accepted",
+      "predicted": "accepted",
+      "ok": true,
+      "detail": "2026-11-22 07:14:45 Initialization Sequence Completed",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 3: expired, leaf + intermediate sent; CA + pin",
+      "expected": "accepted",
+      "observed": "accepted",
+      "predicted": "accepted",
+      "ok": true,
+      "detail": "Sun Nov 22 07:14:45.638 2026 Connected via tun",
+      "seconds": 0.02
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 3: expired, leaf + intermediate sent; pin only",
+      "expected": "rejected",
+      "observed": "rejected",
+      "predicted": "rejected",
+      "ok": true,
+      "detail": "Sun Nov 22 07:14:45.666 2026 EVENT: CERT_VERIFY_FAIL OpenSSLContext::SSL::read_cleartext: BIO_read failed, cap=2640 status=-1: error:0A000086:SSL routines::certificate verify failed [FATAL-ERR]",
+      "seconds": 0.02
+    }
+  ]
+}

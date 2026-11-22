@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import platform
 import shutil
 import ssl
@@ -400,6 +401,42 @@ class Lab:
                 started,
             )
 
+    def transcripts(self, out: Path) -> None:
+        """Run the real CLI against a server whose certificate expired and keep the output."""
+        target = out / "transcripts"
+        target.mkdir(parents=True, exist_ok=True)
+        server = self.start_server("expired")
+        try:
+            text = self.client_profile(server).replace("remote 127.0.0.1", "remote localhost")
+            (self.work / "client.ovpn").write_text(text, encoding="ascii")
+            commands = {
+                "inspect.txt": ["inspect", "client.ovpn"],
+                "diagnose.txt": ["diagnose", "client.ovpn", "--no-clock-check"],
+                "pin.txt": ["pin", "client.ovpn"],
+                "inspect-pinned.txt": ["inspect", "client.pinned-openvpn3.ovpn"],
+                "check-nagios.txt": ["check", "client.ovpn"],
+                "check-prometheus.txt": ["check", "client.ovpn", "--format", "prometheus"],
+            }
+            env = {**os.environ, "NO_COLOR": "1", "PYTHONPATH": str(ROOT / "src")}
+            for name, args in commands.items():
+                result = subprocess.run(
+                    [sys.executable, "-m", "ovpncert", *args],
+                    cwd=self.work,
+                    capture_output=True,
+                    text=True,
+                    env=env,
+                    timeout=120,
+                )
+                (target / name).write_text(
+                    f"$ ovpncert {' '.join(args)}\n{result.stdout}{result.stderr}[exit status {result.returncode}]\n",
+                    encoding="utf-8",
+                )
+            pinned = (self.work / "client.pinned-openvpn3.ovpn").read_text(encoding="ascii")
+            excerpt = pinned.split("</peer-fingerprint>")[0] + "</peer-fingerprint>\n"
+            (target / "pinned-profile-excerpt.txt").write_text(excerpt, encoding="utf-8")
+        finally:
+            self.stop(server)
+
     def _client_case(self, client: str, name: str, server: Server, text: str, expected: str) -> None:
         started = time.monotonic()
         _profile, reports = self.probe(text)
@@ -551,11 +588,14 @@ def main() -> int:
     parser.add_argument("--openvpn", default=shutil.which("openvpn") or "openvpn")
     parser.add_argument("--openvpn3-client", help="path to the OpenVPN 3 core test client (ovpncli)")
     parser.add_argument("--groups", default="ABC")
+    parser.add_argument("--transcripts", action="store_true", help="also save real CLI transcripts")
     args = parser.parse_args()
     with tempfile.TemporaryDirectory(prefix="ovpncert-lab-") as tmp:
         lab = Lab(Path(tmp), args.openvpn, args.openvpn3_client)
         for group in args.groups:
             getattr(lab, f"group_{group.lower()}")()
+        if args.transcripts:
+            lab.transcripts(args.out)
         env = environment(args.openvpn, args.openvpn3_client)
     write_reports(args.out, lab.cases, env)
     failed = [c for c in lab.cases if not c.ok]

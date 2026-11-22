@@ -52,8 +52,8 @@ jobs:
           sudo apt-get install -y openvpn
           openvpn --version | head -n 1
       - run: pip install -e .
-      - name: Run lab (groups A, B, C)
-        run: sudo -E env "PATH=$PATH" python lab/run_lab.py --out lab-results
+      - name: Run lab (groups A, B, C) and record CLI transcripts
+        run: sudo -E env "PATH=$PATH" python lab/run_lab.py --out lab-results --transcripts
       - uses: actions/upload-artifact@v4
         if: always()
         with:

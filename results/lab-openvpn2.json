@@ -1,0 +1,304 @@
+{
+  "environment": {
+    "date": "2026-11-22",
+    "ovpncert": "1.0.0",
+    "openvpn": "OpenVPN 2.6.19 x86_64-pc-linux-gnu [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] [DCO]",
+    "python": "3.12.16",
+    "openssl": "OpenSSL 3.0.13 30 Jan 2024",
+    "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39"
+  },
+  "passed": 29,
+  "total": 29,
+  "cases": [
+    {
+      "group": "A",
+      "name": "udp/none",
+      "expected": "certificate",
+      "observed": "certificate",
+      "predicted": null,
+      "ok": true,
+      "detail": "TLSv1.3 TLS_AES_256_GCM_SHA384 4 ms",
+      "seconds": 0.22
+    },
+    {
+      "group": "A",
+      "name": "udp/tls-auth HMAC-SHA256 kd 1",
+      "expected": "certificate",
+      "observed": "certificate",
+      "predicted": null,
+      "ok": true,
+      "detail": "TLSv1.3 TLS_AES_256_GCM_SHA384 3 ms",
+      "seconds": 0.22
+    },
+    {
+      "group": "A",
+      "name": "udp/tls-auth HMAC-SHA512 kd 1",
+      "expected": "certificate",
+      "observed": "certificate",
+      "predicted": null,
+      "ok": true,
+      "detail": "TLSv1.3 TLS_AES_256_GCM_SHA384 2 ms",
+      "seconds": 0.21
+    },
+    {
+      "group": "A",
+      "name": "udp/tls-auth HMAC-SHA1 bidirectional",
+      "expected": "certificate",
+      "observed": "certificate",
+      "predicted": null,
+      "ok": true,
+      "detail": "TLSv1.3 TLS_AES_256_GCM_SHA384 2 ms",
+      "seconds": 0.22
+    },
+    {
+      "group": "A",
+      "name": "udp/tls-crypt",
+      "expected": "certificate",
+      "observed": "certificate",
+      "predicted": null,
+      "ok": true,
+      "detail": "TLSv1.3 TLS_AES_256_GCM_SHA384 3 ms",
+      "seconds": 0.21
+    },
+    {
+      "group": "A",
+      "name": "tcp/none",
+      "expected": "certificate",
+      "observed": "certificate",
+      "predicted": null,
+      "ok": true,
+      "detail": "TLSv1.3 TLS_AES_256_GCM_SHA384 42 ms",
+      "seconds": 0.26
+    },
+    {
+      "group": "A",
+      "name": "tcp/tls-auth HMAC-SHA256 kd 1",
+      "expected": "certificate",
+      "observed": "certificate",
+      "predicted": null,
+      "ok": true,
+      "detail": "TLSv1.3 TLS_AES_256_GCM_SHA384 43 ms",
+      "seconds": 0.26
+    },
+    {
+      "group": "A",
+      "name": "tcp/tls-crypt",
+      "expected": "certificate",
+      "observed": "certificate",
+      "predicted": null,
+      "ok": true,
+      "detail": "TLSv1.3 TLS_AES_256_GCM_SHA384 43 ms",
+      "seconds": 0.26
+    },
+    {
+      "group": "A",
+      "name": "udp/tls-auth HMAC-SHA256 kd 1 (wrong-key)",
+      "expected": "no reply",
+      "observed": "no reply",
+      "predicted": null,
+      "ok": true,
+      "detail": "no-reply: no reply to the hard reset (the server silently drops packets that fail tls-auth/tls-crypt, so a wrong key, key-direction or --auth digest looks the same as a filtered port)",
+      "seconds": 3.22
+    },
+    {
+      "group": "A",
+      "name": "udp/tls-auth HMAC-SHA256 kd 0 (wrong-direction)",
+      "expected": "no reply",
+      "observed": "no reply",
+      "predicted": null,
+      "ok": true,
+      "detail": "no-reply: no reply to the hard reset (the server silently drops packets that fail tls-auth/tls-crypt, so a wrong key, key-direction or --auth digest looks the same as a filtered port)",
+      "seconds": 3.21
+    },
+    {
+      "group": "B",
+      "name": "server certificate: valid",
+      "expected": "CERTIFICATE_OK",
+      "observed": "CERTIFICATE_OK",
+      "predicted": null,
+      "ok": true,
+      "detail": "The server certificate is valid",
+      "seconds": 0.22
+    },
+    {
+      "group": "B",
+      "name": "server certificate: expired",
+      "expected": "SERVER_CERT_EXPIRED",
+      "observed": "SERVER_CERT_EXPIRED",
+      "predicted": null,
+      "ok": true,
+      "detail": "The server certificate has expired",
+      "seconds": 0.21
+    },
+    {
+      "group": "B",
+      "name": "server certificate: future",
+      "expected": "SERVER_CERT_NOT_YET_VALID",
+      "observed": "SERVER_CERT_NOT_YET_VALID",
+      "predicted": null,
+      "ok": true,
+      "detail": "The server certificate is not valid yet",
+      "seconds": 0.21
+    },
+    {
+      "group": "B",
+      "name": "server certificate: expiring",
+      "expected": "SERVER_CERT_EXPIRING",
+      "observed": "SERVER_CERT_EXPIRING",
+      "predicted": null,
+      "ok": true,
+      "detail": "The server certificate expires soon",
+      "seconds": 0.21
+    },
+    {
+      "group": "B",
+      "name": "server certificate: rogue",
+      "expected": "CA_MISMATCH",
+      "observed": "CA_MISMATCH",
+      "predicted": null,
+      "ok": true,
+      "detail": "The server certificate is not signed by the CA in the profile",
+      "seconds": 0.22
+    },
+    {
+      "group": "B",
+      "name": "server certificate: no-eku",
+      "expected": "SERVER_CERT_PURPOSE",
+      "observed": "SERVER_CERT_PURPOSE",
+      "predicted": null,
+      "ok": true,
+      "detail": "The server certificate is not marked for server use",
+      "seconds": 0.22
+    },
+    {
+      "group": "B",
+      "name": "server certificate: chain",
+      "expected": "CERTIFICATE_OK",
+      "observed": "CERTIFICATE_OK",
+      "predicted": null,
+      "ok": true,
+      "detail": "The server certificate is valid",
+      "seconds": 0.21
+    },
+    {
+      "group": "B",
+      "name": "server certificate: retired-ca",
+      "expected": "CA_EXPIRED",
+      "observed": "CA_EXPIRED",
+      "predicted": null,
+      "ok": true,
+      "detail": "The CA in the profile has expired",
+      "seconds": 0.22
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: valid certificate, CA only",
+      "expected": "accepted",
+      "observed": "accepted",
+      "predicted": "accepted",
+      "ok": true,
+      "detail": "2026-11-22 07:13:52 Initialization Sequence Completed",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf sent; CA only",
+      "expected": "rejected",
+      "observed": "rejected",
+      "predicted": "rejected",
+      "ok": true,
+      "detail": "2026-11-22 07:13:52 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=314274185183898621248204265544344549394685027840",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf sent; CA + pin",
+      "expected": "rejected",
+      "observed": "rejected",
+      "predicted": "rejected",
+      "ok": true,
+      "detail": "2026-11-22 07:13:52 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=314274185183898621248204265544344549394685027840",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf sent; pin only",
+      "expected": "accepted",
+      "observed": "accepted",
+      "predicted": "accepted",
+      "ok": true,
+      "detail": "2026-11-22 07:13:52 Initialization Sequence Completed",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf sent; pin only, wrong pin",
+      "expected": "rejected",
+      "observed": "rejected",
+      "predicted": "rejected",
+      "ok": true,
+      "detail": "2026-11-22 07:13:52 TLS Error: --tls-verify/--peer-fingerprint certificate hash verification failed. (got certificate fingerprint: 58:0e:42:2b:5c:88:15:3a:71:20:dc:c3:11:cc:d7:9f:d2:b5:32:d8:a2:4e:86:35:da:1a:b2:9b:9a:f1:47:33)",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf sent; `ovpncert pin --client openvpn2`",
+      "expected": "accepted",
+      "observed": "accepted",
+      "predicted": "accepted",
+      "ok": true,
+      "detail": "2026-11-22 07:13:52 Initialization Sequence Completed",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf sent; `ovpncert pin --client openvpn3`",
+      "expected": "rejected",
+      "observed": "rejected",
+      "predicted": "rejected",
+      "ok": true,
+      "detail": "2026-11-22 07:13:52 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=314274185183898621248204265544344549394685027840",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf + root sent; CA + pin",
+      "expected": "rejected",
+      "observed": "rejected",
+      "predicted": "rejected",
+      "ok": true,
+      "detail": "2026-11-22 07:13:52 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=314274185183898621248204265544344549394685027840",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf + root sent; pin only",
+      "expected": "accepted",
+      "observed": "accepted",
+      "predicted": "accepted",
+      "ok": true,
+      "detail": "2026-11-22 07:13:52 Initialization Sequence Completed",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf + intermediate sent; CA + pin",
+      "expected": "rejected",
+      "observed": "rejected",
+      "predicted": "rejected",
+      "ok": true,
+      "detail": "2026-11-22 07:13:53 VERIFY ERROR: depth=0, error=certificate has expired: O=Lab, CN=vpn.lab.test, serial=181368895702899740540531166125094683317933317116",
+      "seconds": 0.01
+    },
+    {
+      "group": "C",
+      "name": "OpenVPN 2: expired, leaf + intermediate sent; pin only",
+      "expected": "accepted",
+      "observed": "accepted",
+      "predicted": "accepted",
+      "ok": true,
+      "detail": "2026-11-22 07:13:53 Initialization Sequence Completed",
+      "seconds": 0.01
+    }
+  ]
+}
