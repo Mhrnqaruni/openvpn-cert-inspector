@@ -77,7 +77,7 @@ jobs:
             libasio-dev libcap-dev liblz4-dev libjsoncpp-dev libssl-dev libxxhash-dev
       - name: Cache the OpenVPN 3 test client
         id: cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/ovpncli
           key: ovpncli-${{ env.OPENVPN3_REF }}-ubuntu-24.04
