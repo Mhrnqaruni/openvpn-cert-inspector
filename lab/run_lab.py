@@ -50,19 +50,20 @@ from ovpncert.inspector import ProbeOptions, inspect  # noqa: E402
 from ovpncert.pin import pin_profile  # noqa: E402
 from ovpncert.profile import Profile  # noqa: E402
 
+# Client outcomes: "accepted" = tunnel up, "rejected" = the client refused the server
+# certificate, "error" = anything else (a broken lab, not a verification result).
 V2_OK = ("Initialization Sequence Completed",)
-V2_FAIL = (
+V2_REJECT = (
     "VERIFY ERROR",
     "VERIFY EKU ERROR",
     "VERIFY KU ERROR",
     "certificate verify failed",
     "hash verification failed",
-    "TLS Error: TLS handshake failed",
-    "Exiting due to fatal error",
-    "Options error",
 )
+V2_ERROR = ("Exiting due to fatal error", "Options error", "TLS Error: TLS handshake failed")
 V3_OK = ("Connected via", "EVENT: CONNECTED", "CONNECTED")
-V3_FAIL = ("CERT_VERIFY_FAIL", "VERIFY FAIL", "TLS_VERSION_MIN", "HANDSHAKE_TIMEOUT", "TRANSPORT_ERROR")
+V3_REJECT = ("CERT_VERIFY_FAIL", "VERIFY FAIL")
+V3_ERROR = ("TLS_VERSION_MIN", "HANDSHAKE_TIMEOUT", "TRANSPORT_ERROR", "FATAL-ERR", "AUTH_FAILED")
 
 
 @dataclass
@@ -91,11 +92,12 @@ class Pki:
     other_ca: Issued
     old_ca: Issued
     intermediate: Issued
+    client_ca: Issued
     client: Issued
     ta: str
     tc: str
     other_ta: str
-    leaves: dict[str, tuple[Issued, list[Issued], Issued]] = field(default_factory=dict)
+    leaves: dict[str, tuple[Issued, list[Issued]]] = field(default_factory=dict)
 
 
 class Lab:
@@ -111,40 +113,46 @@ class Lab:
     # -- set-up ----------------------------------------------------------------
 
     def _make_pki(self) -> Pki:
+        # Client certificates come from their own CA. The servers trust only that CA, so
+        # OpenSSL cannot auto-complete the server chain from it: each server sends exactly
+        # the certificates in its bundle (leaf only, leaf + root, or leaf + intermediate).
         ca = make_ca("Lab Root CA", key_kind="rsa")
         other_ca = make_ca("Unrelated CA")
         old_ca = make_ca("Retired CA", valid_from=timedelta(days=-4000), valid_to=timedelta(days=-2))
         intermediate = make_ca("Lab Issuing CA", issuer=ca)
+        client_ca = make_ca("Lab Client CA")
         pki = Pki(
             ca=ca,
             other_ca=other_ca,
             old_ca=old_ca,
             intermediate=intermediate,
-            client=make_leaf(ca, "lab-client", role="client"),
+            client_ca=client_ca,
+            client=make_leaf(client_ca, "lab-client", role="client"),
             ta=make_static_key(),
             tc=make_static_key(),
             other_ta=make_static_key(),
         )
         expired_window = {"valid_from": timedelta(days=-731), "valid_to": timedelta(hours=-3)}
+        expired = make_leaf(ca, "vpn.lab.test", key_kind="rsa", **expired_window)
         pki.leaves = {
-            "valid": (make_leaf(ca, "vpn.lab.test", key_kind="rsa"), [], ca),
-            "expired": (make_leaf(ca, "vpn.lab.test", key_kind="rsa", **expired_window), [], ca),
-            "expired-other": (make_leaf(ca, "vpn.lab.test", **expired_window), [], ca),
+            "valid": (make_leaf(ca, "vpn.lab.test", key_kind="rsa"), []),
+            "expired": (expired, []),
+            "expired-fullchain": (expired, [ca]),
+            "expired-other": (make_leaf(ca, "vpn.lab.test", **expired_window), []),
             "future": (
                 make_leaf(ca, "vpn.lab.test", valid_from=timedelta(days=3), valid_to=timedelta(days=700)),
                 [],
-                ca,
             ),
-            "expiring": (make_leaf(ca, "vpn.lab.test", valid_to=timedelta(days=5)), [], ca),
-            "rogue": (make_leaf(other_ca, "vpn.lab.test"), [], other_ca),
-            "no-eku": (make_leaf(ca, "vpn.lab.test", eku=False), [], ca),
-            "chain": (make_leaf(intermediate, "vpn.lab.test"), [intermediate], ca),
-            "chain-expired": (make_leaf(intermediate, "vpn.lab.test", **expired_window), [intermediate], ca),
-            "retired-ca": (make_leaf(old_ca, "vpn.lab.test", valid_to=timedelta(days=200)), [], old_ca),
+            "expiring": (make_leaf(ca, "vpn.lab.test", valid_to=timedelta(days=5)), []),
+            "rogue": (make_leaf(other_ca, "vpn.lab.test"), []),
+            "no-eku": (make_leaf(ca, "vpn.lab.test", eku=False), []),
+            "chain": (make_leaf(intermediate, "vpn.lab.test"), [intermediate]),
+            "chain-expired": (make_leaf(intermediate, "vpn.lab.test", **expired_window), [intermediate]),
+            "retired-ca": (make_leaf(old_ca, "vpn.lab.test", valid_to=timedelta(days=200)), []),
         }
-        for name, (leaf, chain, server_ca) in pki.leaves.items():
+        for name, (leaf, chain) in pki.leaves.items():
             write_bundle(self.work, name, leaf, chain)
-            (self.work / f"{name}.ca").write_text(server_ca.cert_pem, encoding="ascii")
+        (self.work / "client-ca.crt").write_text(client_ca.cert_pem, encoding="ascii")
         (self.work / "ta.key").write_text(pki.ta, encoding="ascii")
         (self.work / "tc.key").write_text(pki.tc, encoding="ascii")
         return pki
@@ -171,7 +179,7 @@ class Lab:
             "dev tun",
             "topology subnet",
             f"server 10.{subnet}.0.0 255.255.255.0",
-            f"ca {self.work / (leaf + '.ca')}",
+            f"ca {self.work / 'client-ca.crt'}",
             f"cert {self.work / (leaf + '.crt')}",
             f"key {self.work / (leaf + '.key')}",
             "dh none",
@@ -234,6 +242,8 @@ class Lab:
             "remote-cert-tls server",
             f"auth {digest}",
             "data-ciphers AES-256-GCM:AES-128-GCM:CHACHA20-POLY1305",
+            "ifconfig-noexec",
+            "route-noexec",
             "verb 3",
         ]
         anchors = {"lab": self.pki.ca, "retired": self.pki.old_ca}
@@ -254,10 +264,10 @@ class Lab:
     # -- clients -----------------------------------------------------------------
 
     def _run_client(
-        self, command: list[str], ok_markers, fail_markers, timeout: float = 25
+        self, command: list[str], ok_markers, reject_markers, error_markers, timeout: float = 25
     ) -> tuple[str, str]:
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-        verdict, reason = "timeout", "no success or failure marker"
+        verdict = "timeout"
         deadline = time.monotonic() + timeout
         lines: list[str] = []
         try:
@@ -268,28 +278,35 @@ class Lab:
                         break
                     continue
                 lines.append(line.rstrip())
-                if any(m in line for m in fail_markers):
-                    verdict, reason = "rejected", line.strip()
+                if any(m in line for m in reject_markers):
+                    verdict = "rejected"
                     break
                 if any(m in line for m in ok_markers):
-                    verdict, reason = "accepted", line.strip()
+                    verdict = "accepted"
+                    break
+                if any(m in line for m in error_markers):
+                    verdict = "error"
                     break
         finally:
             process.kill()
             process.wait()
-        if verdict == "timeout":
-            reason = " | ".join(lines[-3:]) or reason
-        return verdict, reason[-220:]
+        context = lines[-1:] if verdict in ("accepted", "rejected") else lines[-6:]
+        return verdict, " | ".join(context)[-600:] or "no output"
 
     def openvpn2(self, profile_text: str) -> tuple[str, str]:
         path = self.work / f"client-{time.monotonic_ns()}.ovpn"
         path.write_text(profile_text, encoding="ascii")
-        return self._run_client([self.openvpn, "--config", str(path)], V2_OK, V2_FAIL)
+        return self._run_client([self.openvpn, "--config", str(path)], V2_OK, V2_REJECT, V2_ERROR)
 
     def openvpn3(self, profile_text: str) -> tuple[str, str]:
         path = self.work / f"client3-{time.monotonic_ns()}.ovpn"
-        path.write_text(profile_text.replace("dev null\n", ""), encoding="ascii")
-        return self._run_client([self.ovpncli, str(path)], V3_OK, V3_FAIL)
+        text = "\n".join(
+            line
+            for line in profile_text.splitlines()
+            if line not in ("dev null", "ifconfig-noexec", "route-noexec")
+        )
+        path.write_text(text + "\n", encoding="ascii")
+        return self._run_client([self.ovpncli, str(path)], V3_OK, V3_REJECT, V3_ERROR)
 
     # -- helpers -----------------------------------------------------------------
 
@@ -411,6 +428,7 @@ class Lab:
         finally:
             self.stop(server)
 
+        # Expired server certificate, server sends the leaf only.
         server = self.start_server("expired")
         try:
             base = self.client_profile(server)
@@ -418,49 +436,67 @@ class Lab:
             reports = inspect(profile, ProbeOptions(timeout=10))
             pinned3 = pin_profile(profile, reports, "openvpn3").text
             pinned2 = pin_profile(profile, reports, "openvpn2").text
+            ca_pin = self.client_profile(server, pins=(expired_fp,))
+            pin_only = self.client_profile(server, ca=None, pins=(expired_fp,))
             expectations = {
-                "OpenVPN 2": {
-                    "expired, CA only": (base, "rejected"),
-                    "expired, CA + pin": (self.client_profile(server, pins=(expired_fp,)), "rejected"),
-                    "expired, pin only": (
-                        self.client_profile(server, ca=None, pins=(expired_fp,)),
-                        "accepted",
-                    ),
-                    "expired, pin only, wrong pin": (
+                "OpenVPN 2": [
+                    ("leaf sent; CA only", base, "rejected"),
+                    ("leaf sent; CA + pin", ca_pin, "rejected"),
+                    ("leaf sent; pin only", pin_only, "accepted"),
+                    (
+                        "leaf sent; pin only, wrong pin",
                         self.client_profile(server, ca=None, pins=(other_fp,)),
                         "rejected",
                     ),
-                    "expired, `ovpncert pin --client openvpn2`": (pinned2, "accepted"),
-                    "expired, `ovpncert pin --client openvpn3`": (pinned3, "rejected"),
-                },
-                "OpenVPN 3": {
-                    "expired, CA only": (base, "rejected"),
-                    "expired, CA + pin": (self.client_profile(server, pins=(expired_fp,)), "accepted"),
-                    "expired, pin only (leaf sent)": (
-                        self.client_profile(server, ca=None, pins=(expired_fp,)),
-                        "accepted",
-                    ),
-                    "expired, CA + wrong pin": (self.client_profile(server, pins=(other_fp,)), "rejected"),
-                    "expired, `ovpncert pin --client openvpn3`": (pinned3, "accepted"),
-                },
+                    ("leaf sent; `ovpncert pin --client openvpn2`", pinned2, "accepted"),
+                    ("leaf sent; `ovpncert pin --client openvpn3`", pinned3, "rejected"),
+                ],
+                "OpenVPN 3": [
+                    ("leaf sent; CA only", base, "rejected"),
+                    ("leaf sent; CA + pin", ca_pin, "accepted"),
+                    ("leaf sent; pin only", pin_only, "accepted"),
+                    ("leaf sent; CA + wrong pin", self.client_profile(server, pins=(other_fp,)), "rejected"),
+                    ("leaf sent; `ovpncert pin --client openvpn3`", pinned3, "accepted"),
+                    ("leaf sent; `ovpncert pin --client openvpn2`", pinned2, "accepted"),
+                ],
             }
             for client in clients:
-                for name, (text, expected) in expectations[client].items():
-                    self._client_case(client, name, server, text, expected)
+                for name, text, expected in expectations[client]:
+                    self._client_case(client, f"expired, {name}", server, text, expected)
         finally:
             self.stop(server)
 
+        # Same expired certificate, server also sends the root CA (a common configuration).
+        server = self.start_server("expired-fullchain")
+        try:
+            outcomes = {
+                "OpenVPN 2": [("CA + pin", "rejected"), ("pin only", "accepted")],
+                "OpenVPN 3": [("CA + pin", "accepted"), ("pin only", "rejected")],
+            }
+            for client in clients:
+                for name, expected in outcomes[client]:
+                    text = self.client_profile(
+                        server, ca="lab" if name == "CA + pin" else None, pins=(expired_fp,)
+                    )
+                    self._client_case(client, f"expired, leaf + root sent; {name}", server, text, expected)
+        finally:
+            self.stop(server)
+
+        # Expired certificate issued by an intermediate; server sends leaf + intermediate.
         server = self.start_server("chain-expired")
         try:
-            outcomes = {"OpenVPN 2": "accepted", "OpenVPN 3": "rejected"}
+            outcomes = {
+                "OpenVPN 2": [("CA + pin", "rejected"), ("pin only", "accepted")],
+                "OpenVPN 3": [("CA + pin", "accepted"), ("pin only", "rejected")],
+            }
             for client in clients:
-                self._client_case(
-                    client,
-                    "expired, pin only (chain sent)",
-                    server,
-                    self.client_profile(server, ca=None, pins=(chain_fp,)),
-                    outcomes[client],
-                )
+                for name, expected in outcomes[client]:
+                    text = self.client_profile(
+                        server, ca="lab" if name == "CA + pin" else None, pins=(chain_fp,)
+                    )
+                    self._client_case(
+                        client, f"expired, leaf + intermediate sent; {name}", server, text, expected
+                    )
         finally:
             self.stop(server)
 
