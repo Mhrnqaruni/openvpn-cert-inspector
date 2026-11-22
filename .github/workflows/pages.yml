@@ -28,7 +28,7 @@ jobs:
         run: |
           sed -i 's#](\.\./results/#](https://github.com/Mhrnqaruni/openvpn-cert-inspector/tree/main/results/#g' docs/*.md
       - run: mkdocs build --strict
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: site
 
