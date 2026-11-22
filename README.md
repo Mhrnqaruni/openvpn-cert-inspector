@@ -198,6 +198,7 @@ The protocol details, the verification model and the decision tables are in
 |---|---|---|
 | `openssl s_client`, testssl.sh, sslyze, nmap `ssl-cert` | no | expect TLS directly on the socket; OpenVPN frames TLS inside its own packets |
 | Expiry exporters / Nagios `check_ssl_cert` | no | plain TLS or local files; operators run them on the VPN host itself |
+| `check_openvpn` (Nagios/Icinga) | no | liveness only: a (`tls-auth`-signed) hard reset, no TLS handshake |
 | Internet-wide scanners and OpenVPN fingerprinting research | detection only | identify OpenVPN by packet patterns; `tls-auth`/`tls-crypt` servers do not answer unauthenticated probes |
 | OpenVPN client logs | after the fact | report the failure, not the certificate or the cause |
 | **ovpncert** | **yes** | speaks the control channel with the profile's key; stops after the TLS handshake |
