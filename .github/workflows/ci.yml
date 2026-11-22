@@ -1,0 +1,101 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff
+      - run: ruff check .
+      - run: ruff format --check .
+
+  test:
+    name: test (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          allow-prereleases: true
+      - run: pip install -e ".[dev]"
+      - run: pytest --cov --cov-report=term-missing:skip-covered
+
+  lab-openvpn2:
+    name: lab (real OpenVPN 2.6 servers and clients)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install OpenVPN
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openvpn
+          openvpn --version | head -n 1
+      - run: pip install -e .
+      - name: Run lab (groups A, B, C)
+        run: sudo -E env "PATH=$PATH" python lab/run_lab.py --out lab-results
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lab-results-openvpn2
+          path: lab-results
+
+  lab-openvpn3:
+    name: lab (OpenVPN 3 core client)
+    runs-on: ubuntu-24.04
+    env:
+      OPENVPN3_REF: release/3.11.3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install OpenVPN and build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openvpn build-essential cmake ninja-build git pkg-config \
+            libasio-dev libcap-dev liblz4-dev libjsoncpp-dev libssl-dev libxxhash-dev
+      - name: Cache the OpenVPN 3 test client
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ~/ovpncli
+          key: ovpncli-${{ env.OPENVPN3_REF }}-ubuntu-24.04
+      - name: Build the OpenVPN 3 test client (ovpncli)
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          git clone --depth 1 --branch "$OPENVPN3_REF" https://github.com/OpenVPN/openvpn3.git
+          cmake -S openvpn3 -B openvpn3/build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
+          cmake --build openvpn3/build --target ovpncli
+          mkdir -p ~/ovpncli
+          cp "$(find openvpn3/build -name ovpncli -type f -perm -u+x | head -n 1)" ~/ovpncli/ovpncli
+      - run: pip install -e .
+      - name: Run lab (client behaviour, OpenVPN 2.6 and OpenVPN 3)
+        run: |
+          sudo -E env "PATH=$PATH" python lab/run_lab.py --out lab-results --groups C \
+            --openvpn3-client "$HOME/ovpncli/ovpncli"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lab-results-openvpn3
+          path: lab-results
