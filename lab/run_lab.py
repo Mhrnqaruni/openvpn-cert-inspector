@@ -427,10 +427,9 @@ class Lab:
                     env=env,
                     timeout=120,
                 )
-                (target / name).write_text(
-                    f"$ ovpncert {' '.join(args)}\n{result.stdout}{result.stderr}[exit status {result.returncode}]\n",
-                    encoding="utf-8",
-                )
+                transcript = f"$ ovpncert {' '.join(args)}\n{result.stdout}{result.stderr}"
+                transcript += f"[exit status {result.returncode}]\n"
+                (target / name).write_text(transcript, encoding="utf-8")
             pinned = (self.work / "client.pinned-openvpn3.ovpn").read_text(encoding="ascii")
             excerpt = pinned.split("</peer-fingerprint>")[0] + "</peer-fingerprint>\n"
             (target / "pinned-profile-excerpt.txt").write_text(excerpt, encoding="utf-8")
